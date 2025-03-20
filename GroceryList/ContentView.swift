@@ -14,6 +14,8 @@ struct ContentView: View {
 
     @State private var item = ""
 
+    @FocusState private var isFocused: Bool
+
     private func addEssentialFoods() {
         modelContext.insert(Item(title: "Milk", isCompleted: true))
         modelContext.insert(Item(title: "Butter", isCompleted: false))
@@ -62,20 +64,34 @@ struct ContentView: View {
                 }
             }
             .safeAreaInset(edge: .bottom) {
-                VStack {
+                VStack(spacing: 12) {
                     TextField("", text: $item)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(.plain)
+                        .padding(12)
+                        .background(.tertiary)
+                        .cornerRadius(12)
+                        .font(.title.weight(.light))
+                        .focused($isFocused)
 
                     Button {
+                        guard !item.isEmpty else { return }
+
                         let newItem = Item(title: item, isCompleted: false)
                         modelContext.insert(newItem)
                         try? modelContext.save()
                         item = ""
+                        isFocused = false
                     } label: {
                         Text("Save")
+                            .font(.title2.weight(.light))
+                            .frame(maxWidth: .infinity)
                     }
+                    .buttonStyle(.borderedProminent)
+                    .buttonBorderShape(.roundedRectangle)
+                    .controlSize(.extraLarge)
                 }
                 .padding()
+                .background(.bar)
             }
             .overlay {
                 if items.isEmpty {
