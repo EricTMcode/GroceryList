@@ -51,7 +51,7 @@ struct ContentView: View {
                         }
                 }
             }
-            .navigationTitle("Grecery List")
+            .navigationTitle("Grocery List")
             .toolbar {
                 if items.isEmpty {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -61,6 +61,11 @@ struct ContentView: View {
                             Label("Essentials", systemImage: "carrot")
                         }
                     }
+                }
+            }
+            .overlay {
+                if items.isEmpty {
+                    ContentUnavailableView("Empty Cart", systemImage: "cart.circle", description: Text("Add some items to the shopping list."))
                 }
             }
             .safeAreaInset(edge: .bottom) {
@@ -92,11 +97,6 @@ struct ContentView: View {
                 }
                 .padding()
                 .background(.bar)
-            }
-            .overlay {
-                if items.isEmpty {
-                    ContentUnavailableView("Empty Cart", systemImage: "cart.circle", description: Text("Add some items to the shopping list."))
-                }
             }
         }
     }
