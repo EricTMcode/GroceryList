@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -15,6 +16,12 @@ struct ContentView: View {
     @State private var item = ""
 
     @FocusState private var isFocused: Bool
+
+    let buttonTip = ButtonTip()
+
+    init() {
+        try? Tips.configure()
+    }
 
     private func addEssentialFoods() {
         modelContext.insert(Item(title: "Milk", isCompleted: true))
@@ -58,8 +65,9 @@ struct ContentView: View {
                         Button {
                             addEssentialFoods()
                         } label: {
-                            Label("Essentials", systemImage: "carrot")
+                            Image(systemName: "carrot")
                         }
+                        .popoverTip(buttonTip)
                     }
                 }
             }
