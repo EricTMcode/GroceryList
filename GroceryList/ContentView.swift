@@ -19,8 +19,18 @@ struct ContentView: View {
 
     let buttonTip = ButtonTip()
 
+    func setupTips() {
+        do {
+            try Tips.resetDatastore()
+            Tips.showAllTipsForTesting()
+            try Tips.configure([.displayFrequency(.immediate)])
+        } catch {
+            print("Error initializing TipKit \(error.localizedDescription)")
+        }
+    }
+
     init() {
-        try? Tips.configure()
+        setupTips()
     }
 
     private func addEssentialFoods() {
